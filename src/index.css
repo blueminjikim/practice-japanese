@@ -1,0 +1,33 @@
+@import "tailwindcss";
+
+* {
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  user-select: none;
+}
+
+input, textarea {
+  user-select: text;
+}
+
+body {
+  margin: 0;
+  background: #fff;
+  font-family: -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#root {
+  min-height: 100dvh;
+  max-width: 430px;
+  margin: 0 auto;
+}
+
+.pb-safe-8 {
+  padding-bottom: max(2rem, calc(1rem + env(safe-area-inset-bottom)));
+}
+
+.pb-safe-nav {
+  padding-bottom: max(0.75rem, env(safe-area-inset-bottom));
+}
