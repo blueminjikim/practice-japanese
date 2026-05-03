@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useProgressStore } from '../../stores/progressStore'
+import { useUserStore } from '../../stores/userStore'
 import { scenarios } from '../../data'
 import type { Scenario } from '../../data'
 import resImg from '../../assets/res 1.png'
@@ -77,7 +78,8 @@ function ScenarioCard({ scenario }: { scenario: Scenario }) {
 }
 
 export default function LearnPage() {
-  const [activeLevel, setActiveLevel] = useState<'beginner' | 'intermediate' | 'advanced'>('beginner')
+  const { defaultLevel } = useUserStore()
+  const [activeLevel, setActiveLevel] = useState<'beginner' | 'intermediate' | 'advanced'>(defaultLevel)
 
   return (
     <div className="px-5 pt-12 pb-6 flex flex-col gap-6">
