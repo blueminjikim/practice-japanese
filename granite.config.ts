@@ -5,7 +5,7 @@ export default defineConfig({
   brand: {
     displayName: '니혼진처럼',
     primaryColor: '#1C1C1E',
-    icon: '',
+    icon: './public/light.PNG',
   },
   web: {
     host: 'localhost',

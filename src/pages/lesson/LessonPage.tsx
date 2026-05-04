@@ -287,14 +287,28 @@ export default function LessonPage() {
   // 하단 CTA 버튼 결정
   const renderCTA = () => {
     if (phase.kind === 'expose') {
+      const canGoBack = phase.idx > 0
       return (
         <div className="flex flex-col gap-2">
-          <button
-            onClick={advance}
-            className="w-full bg-black text-white rounded-2xl py-4 font-semibold tracking-tight active:scale-[0.97] transition-transform duration-150"
-          >
-            {phase.idx < N - 1 ? '다음' : '퀴즈 시작'}
-          </button>
+          <div className="flex gap-2">
+            <button
+              onClick={() => setPhase({ kind: 'expose', idx: phase.idx - 1 })}
+              disabled={!canGoBack}
+              className={`flex-1 rounded-2xl py-4 font-semibold tracking-tight transition-all duration-150 ${
+                canGoBack
+                  ? 'bg-gray-100 text-gray-400 active:scale-[0.97]'
+                  : 'bg-gray-50 text-gray-200 cursor-not-allowed'
+              }`}
+            >
+              이전
+            </button>
+            <button
+              onClick={advance}
+              className="flex-1 bg-black text-white rounded-2xl py-4 font-semibold tracking-tight active:scale-[0.97] transition-transform duration-150"
+            >
+              {phase.idx < N - 1 ? '다음' : '퀴즈 시작'}
+            </button>
+          </div>
           <button
             onClick={() => { setAssemblyReady(false); setPhase({ kind: 'meaning', idx: 0 }) }}
             className="w-full text-gray-400 text-sm py-3 active:scale-[0.97] transition-transform duration-150"

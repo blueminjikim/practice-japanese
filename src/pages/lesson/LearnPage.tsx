@@ -4,6 +4,7 @@ import { useProgressStore } from '../../stores/progressStore'
 import { useUserStore } from '../../stores/userStore'
 import { scenarios } from '../../data'
 import type { Scenario } from '../../data'
+import { RocketLaunchIcon } from '@heroicons/react/24/solid'
 import resImg from '../../assets/res 1.png'
 import hotelImg from '../../assets/hotel 1.png'
 import shoppingImg from '../../assets/shopping 1.png'
@@ -21,7 +22,7 @@ const themeIcon: Record<string, string> = {
 const LEVELS = [
   { key: 'beginner' as const,     label: '아직 한국인', disabled: false },
   { key: 'intermediate' as const, label: '조금 일본인', disabled: false },
-  { key: 'advanced' as const,     label: '완전 일본인', disabled: true  },
+  { key: 'advanced' as const,     label: '완전 일본인', disabled: false },
 ]
 
 function ScenarioCard({ scenario }: { scenario: Scenario }) {
@@ -89,16 +90,13 @@ export default function LearnPage() {
       </div>
 
       <div className="flex gap-1 bg-gray-100 rounded-2xl p-1">
-        {LEVELS.map(({ key, label, disabled }) => (
+        {LEVELS.map(({ key, label }) => (
           <button
             key={key}
-            onClick={() => !disabled && setActiveLevel(key)}
-            disabled={disabled}
+            onClick={() => setActiveLevel(key)}
             className={`flex-1 py-2 rounded-xl text-sm font-medium transition-all duration-200 ${
               activeLevel === key
                 ? 'bg-white text-gray-900 shadow-sm'
-                : disabled
-                ? 'text-gray-300 cursor-not-allowed'
                 : 'text-gray-400 active:scale-[0.96]'
             }`}
           >
@@ -108,11 +106,19 @@ export default function LearnPage() {
       </div>
 
       <div className="flex flex-col gap-3">
-        {scenarios
-          .filter((s) => s.level === activeLevel)
-          .map((scenario) => (
-            <ScenarioCard key={scenario.id} scenario={scenario} />
-          ))}
+        {scenarios.filter((s) => s.level === activeLevel).length === 0 ? (
+          <div className="flex flex-col items-center gap-2 py-16 text-center">
+            <RocketLaunchIcon className="w-8 h-8 text-gray-300" />
+            <p className="text-base font-medium text-gray-500">준비하고 있어요</p>
+            <p className="text-sm text-gray-400">정말 니혼진을 위한 콘텐츠로 가져올게요.아쟈쓰!</p>
+          </div>
+        ) : (
+          scenarios
+            .filter((s) => s.level === activeLevel)
+            .map((scenario) => (
+              <ScenarioCard key={scenario.id} scenario={scenario} />
+            ))
+        )}
       </div>
     </div>
   )
