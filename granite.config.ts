@@ -5,7 +5,7 @@ export default defineConfig({
   brand: {
     displayName: '니혼진처럼',
     primaryColor: '#1C1C1E',
-    icon: './public/light.PNG',
+    icon: 'https://static.toss.im/appsintoss/40295/6471c320-3bfe-4e57-baa7-5a3e281421d3.png',
   },
   web: {
     host: 'localhost',
