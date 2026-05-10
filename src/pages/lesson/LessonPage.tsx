@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
-import { ChevronLeftIcon } from '@heroicons/react/24/outline'
 import { SpeakButton } from '../../components/SpeakButton'
 import { getScenario } from '../../data'
 import { useProgressStore } from '../../stores/progressStore'
@@ -212,7 +211,7 @@ function AssemblyContent({ expr, onAnswer, onReadyChange }: {
 export default function LessonPage() {
   const { scenarioId } = useParams()
   const navigate = useNavigate()
-  const { markScenarioComplete, addWeakExpression, removeWeakExpression, addPassportStamp, setScenarioProgress, clearScenarioProgress } = useProgressStore()
+  const { markScenarioComplete, addWeakExpression, removeWeakExpression, addPassportStamp, clearScenarioProgress } = useProgressStore()
 
   const scenario = getScenario(scenarioId!)
   const expressions = scenario?.steps.flatMap((s) => s.expressions) ?? []
@@ -267,12 +266,7 @@ export default function LessonPage() {
     advance()
   }
 
-  const handleExit = () => {
-    if (phase.kind !== 'result') setScenarioProgress(scenario.id, progressPercent)
-    navigate('/learn')
-  }
-
-  const handleFinish = () => {
+const handleFinish = () => {
     markScenarioComplete(scenario.id)
     clearScenarioProgress(scenario.id)
     addPassportStamp(scenario.id)
@@ -345,11 +339,8 @@ export default function LessonPage() {
   return (
     <div className="min-h-dvh bg-white flex flex-col">
       {/* 헤더 */}
-      <div className="px-5 pt-12 pb-4">
+      <div className="px-5 pt-6 pb-4">
         <div className="flex items-center gap-3">
-          <button onClick={handleExit} className="text-gray-400 w-8 flex-shrink-0 flex items-center">
-            <ChevronLeftIcon className="w-6 h-6" />
-          </button>
           {phase.kind === 'expose' ? (
             <p className="flex-1 text-sm font-medium text-gray-500 text-center">표현 미리 공부하기</p>
           ) : phase.kind !== 'result' ? (
@@ -362,7 +353,6 @@ export default function LessonPage() {
           ) : (
             <div className="flex-1" />
           )}
-          <div className="w-8 flex-shrink-0" />
         </div>
       </div>
 
