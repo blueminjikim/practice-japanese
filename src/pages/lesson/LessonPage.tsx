@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { SpeakButton } from '../../components/SpeakButton'
@@ -211,7 +211,7 @@ function AssemblyContent({ expr, onAnswer, onReadyChange }: {
 export default function LessonPage() {
   const { scenarioId } = useParams()
   const navigate = useNavigate()
-  const { markScenarioComplete, addWeakExpression, removeWeakExpression, addPassportStamp, clearScenarioProgress } = useProgressStore()
+  const { markScenarioComplete, addWeakExpression, removeWeakExpression, addPassportStamp, setScenarioProgress, clearScenarioProgress } = useProgressStore()
 
   const scenario = getScenario(scenarioId!)
   const expressions = scenario?.steps.flatMap((s) => s.expressions) ?? []
@@ -219,6 +219,22 @@ export default function LessonPage() {
   const [phase, setPhase] = useState<Phase>({ kind: 'expose', idx: 0 })
   const [wrongIds, setWrongIds] = useState<string[]>([])
   const [assemblyReady, setAssemblyReady] = useState(false)
+
+  const phaseRef = useRef(phase)
+  useEffect(() => { phaseRef.current = phase }, [phase])
+
+  useEffect(() => {
+    return () => {
+      const p = phaseRef.current
+      if (p.kind !== 'result' && scenario) {
+        const N = expressions.length
+        const quizStep =
+          p.kind === 'meaning'  ? p.idx * 2 :
+          p.kind === 'assemble' ? p.idx * 2 + 1 : 0
+        setScenarioProgress(scenario.id, Math.round((quizStep / (N * 2)) * 100))
+      }
+    }
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   if (!scenario || expressions.length === 0) {
     navigate('/learn')

@@ -83,7 +83,7 @@ export default function LearnPage() {
   const [activeLevel, setActiveLevel] = useState<'beginner' | 'intermediate' | 'advanced'>(defaultLevel)
 
   return (
-    <div className="px-5 pt-12 pb-6 flex flex-col gap-6">
+    <div className="px-5 pt-6 pb-6 flex flex-col gap-6">
       <div>
         <h1 className="text-2xl font-bold text-gray-900 tracking-tight">니혼진처럼</h1>
         <p className="text-sm text-gray-400 mt-0.5">쓰거나 읽지 못해도 상관없어요. <br/>바로 말하는 실전 압축 여행 · 애니 일본어</p>
